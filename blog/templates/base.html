@@ -1,0 +1,122 @@
+{% load static %}
+{% load my_tags %}
+{% show_categories as categories %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}page{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog_app/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_app/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_app/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_app/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_app/responsive.css' %}">
+  
+</head>
+
+<body>
+    <div class="wrapper">
+        {% block header %}
+        <header class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="logo">
+                            <h2><a href="{% url 'home' %}">Classic</a></h2>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="menu">
+                            {% include '_inc/_header_footer_menu.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% endblock %}
+
+        {% block content %}<span>Content should be here</span> {% endblock %}
+        
+        {% block footer %}
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="footer-bg">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="footer-menu">
+                                        {% include '_inc/_header_footer_menu.html' %}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="footer-icon">
+                                        <p><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></p>
+                                    </div>
+                                </div>
+                            </div> .
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+    </div>
+    <script src="{% static 'blog_app/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'blog_app/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'blog_app/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'blog_app/js/active.js' %}"></script>
+    <script src="{% static 'blog_app/js/act.js' %}"></script>
+    <script src="{% static 'blog_app/js/sidebar.js' %}"></script>
+    <script>
+        function cursPointer(event){
+            event.target.style.cursor ='pointer'
+            console.log(event.target)
+        }
+
+        function reply(event){
+            event.target.style.color ='red'
+            console.log(event.target.id)
+        }
+    </script>
+    <script>
+        function createReplay(id, post_id) {
+            let parent = document.getElementById(id);
+            if (document.contains(document.getElementById('newReplayForm'))) {
+                document.getElementById('newReplayForm').remove()
+            }
+            parent.insertAdjacentHTML('afterend','\
+            <form id="newReplayForm" action="/form/" method="post">\
+                {% csrf_token %}\
+                <p>\
+                    <label for="id_author">Author:</label>\
+                    <input type="text" name="author" maxlength="50" style="width:40%; padding:0" required id="id_author">\
+                </p>\
+                <p>\
+                    <label for="id_content">Content:</label>\
+                    <textarea name="content" cols="60" rows="3" required="" id="id_content"></textarea>\
+                </p>\
+                <p>\
+                    <select name="post" required  style="display:none" id="id_post">\
+                        <option value="' + post_id + '" selected></option>\
+                    </select>\
+                </p>\
+                <p>\
+                    <select name="parent" style="display:none" id="id_parentt">\
+                        <option value="'+ id + '" selected</option>\
+                    </select>\
+                </p>\
+                <button type="submit">Додати коментар</button>\
+                <button style="float:right" onclick="newReplayForm.remove()" type="button">Закрити</button>\
+            </form>');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+
+{% load mptt_tags %}
+<ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    {% recursetree categories %}
+    <li>
+        <a href="{% url 'category' node.slug %}">{{node.title}}</a>
+        {% if not node.is_leaf_node %}
+            <li class="children">
+                {{ children }}
+            </li>
+        {% endif %}
+    </li>
+    {% endrecursetree %}
+</ul>

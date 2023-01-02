@@ -1,0 +1,26 @@
+<div class="button-group ">
+    <button data-filter=".popular" id="recent" class=" is-checked" style="width: 50%;">recent posts</button>
+    <button data-filter=".popular" id="popular"  style="width: 50%;">popular posts</button>
+</div>
+
+<div class="grid" style="position: relative;">
+    {% for post in recent_posts %}
+    <div class="portfolio-item recent">
+        <img src="{{post.photo.url}}" alt="">
+        <div class="portfolio-text">
+            <h5><a href="{% url 'post' post.slug %}">{{post.title}}</a></h5>
+            <p>By Kabbo Liate <span>|</span>25 February 2017</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for post in popular_posts %}
+    <div class="portfolio-item popular" style="display: none;">
+        <img src="{{post.photo.url}}" alt="">
+        <div class="portfolio-text">
+            <h5><a href="{% url 'post' post.slug %}">{{post.title}}</a></h5>
+            <p>By Kabbo Liate <span>|</span>25 February 2017</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>

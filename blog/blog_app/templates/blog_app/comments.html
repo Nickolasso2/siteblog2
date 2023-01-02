@@ -1,0 +1,52 @@
+<div class="commententries">
+    <h3>Comments</h3>
+    <form action="{% url 'add_com' %}" method="post">
+        {% csrf_token %}
+        <!-- {{form.as_p}} -->
+        <label for="{{form.author.id_for_label}}">Author</label>
+        {{form.author}} 
+        <br>
+        <label for="{{form.content.id_for_label}}">Content</label>
+        {{form.content}}
+        <br>
+        {{form.post}}
+        <button type="submit">Додати коментар</button>
+    </form>
+    <hr style="border: 4px dotted black;">
+    {% load mptt_tags %}
+    <ul class="commentlist">
+        {% recursetree comments.object_list %}
+            <li>
+                <article class="comment">
+                    <section id="{{node.id}}" class="comment-details">
+                        <div class="author-name">
+                            <h5><a href="#">{{node.author}}</a></h5>
+                            <p>{{node.commented_date}}</p>
+                        </div>
+                        <div class="comment-body">
+                            <p>{{node.content}}</p>
+                        </div>
+                        <div class="reply" style="border:2px rgb(219, 9, 9) dotted">
+
+                            <p>
+                                <span><i class="fa fa-thumbs-up" aria-hidden="true" onmouseover="cursPointer(event)" onclick="reply(event)">Подобається</i>{{node.liked}}</span>
+                                <span><i class="fa  fa-reply" aria-hidden="true" > Відгуків</i>{{node.reply_number}}</span></p>
+                                
+                        </div>
+                        {% if node.level < 3 %}
+                        <!-- if for node.level allows to limit replay the comments consequently limits the comments  -->
+                        <button type="button" onclick="createReplay({{node.id}}, {{node.post.id}})">Додати відгук</button>
+                        {% endif %}
+                        
+                    </section>
+                </article>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+    <p>{{request}}</p>
+</div>
